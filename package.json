@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-sudy-project",
+  "version": "1.0.0",
+  "description": "study project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/torendo/nodejs-sudy-project.git"
+  },
+  "author": "Stanislav Proshkin <Stanislav_Proshkin@epam.com> (https://github.com/torendo)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/torendo/nodejs-sudy-project/issues"
+  },
+  "homepage": "https://github.com/torendo/nodejs-sudy-project#readme"
+}
