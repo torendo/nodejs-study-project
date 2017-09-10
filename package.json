@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/torendo/nodejs-sudy-project/issues"
   },
-  "homepage": "https://github.com/torendo/nodejs-sudy-project#readme"
+  "homepage": "https://github.com/torendo/nodejs-sudy-project#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0"
+  },
+  "false": {}
 }
