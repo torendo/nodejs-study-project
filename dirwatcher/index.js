@@ -12,6 +12,7 @@ export default class DirWatcher extends EventEmitter {
         }
         oldFiles = files;
       });
-    }, delay)
+    }, delay);
+    return this;
   }
 };

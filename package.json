@@ -4,7 +4,7 @@
   "description": "study project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon index.js --exec babel-node",
     "test": "test"
   },
   "repository": {
@@ -18,11 +18,14 @@
   },
   "homepage": "https://github.com/torendo/nodejs-sudy-project#readme",
   "devDependencies": {
-    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
     "nodemon": "^1.12.1"
   },
-  "false": {}
+  "false": {},
+  "dependencies": {
+    "csvjson": "^4.3.4"
+  }
 }
