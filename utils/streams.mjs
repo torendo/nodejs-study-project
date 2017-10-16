@@ -1,18 +1,20 @@
 import fs from 'fs';
+import util from 'util';
 import through2 from 'through2';
 import parseArgs from 'minimist';
 import csv from 'csvjson';
+import request from 'request';
+import CombinedStream from 'combined-stream';
 
-function inputOutput (filePath) {
-  if (!fs.existsSync(filePath)) {
-    return console.error('File does not exist', filePath);
-  }
+const readdirAsync = util.promisify(fs.readdir);
+
+function inputOutput(filePath) {
   fs.createReadStream(filePath)
     .pipe(process.stdout)
     .on('error', (err) => console.error(err));
 }
 
-function transform () {
+function transform() {
   process.stdin
     .pipe(through2(function (chunk, enc, callback) {
       const transformed = chunk.toString().toUpperCase();
@@ -23,10 +25,7 @@ function transform () {
     .on('error', (err) => console.error(err));
 }
 
-function transformFile (filePath, isToFile) {
-  if (!fs.existsSync(filePath)) {
-    return console.error('File does not exist', filePath);
-  }
+function transformFile(filePath, isToFile) {
   const stream = fs.createReadStream(filePath)
     .pipe(through2(function (chunk, enc, callback) {
       const transformed = JSON.stringify(csv.toObject(chunk.toString()));
@@ -42,14 +41,24 @@ function transformFile (filePath, isToFile) {
   stream.on('error', (err) => console.error(err));
 }
 
-function cssBundler (path) {
-  // Grab all css files in given path
-
-  // Contact them into one big css file
-
-
-  // Add contents of https://www.epam.com/etc/clientlibs/foundation/main.min.fc69c13add6eae57cd2 47a91c7e26a15.css at the bottom of this big css
-  // Output should be saved in the same path and called bundle.css
+function cssBundler(path) {
+  readdirAsync(path).then(files => {
+    let combinedStream = CombinedStream.create();
+    files.forEach(file => {
+      if (!/css$/i.test(file)) return;
+      const stream = fs.createReadStream(path + '/' + file)
+        .pipe(through2(function (chunk, enc, callback) {
+          const transformed = chunk.toString() + '\n';
+          this.push(new Buffer(transformed));
+          callback();
+        }));
+      combinedStream.append(stream);
+    });
+    combinedStream
+      .append(request('https://www.epam.com/etc/clientlibs/foundation/main.min.fc69c13add6eae57cd247a91c7e26a15.css'))
+      .pipe(fs.createWriteStream(path + '/' + 'bundle.css'))
+      .on('error', (err) => console.error(err));
+  }).catch(err => console.error(err));
 }
 
 function printHelpMessage() {
@@ -66,6 +75,7 @@ const argv = parseArgs(process.argv.slice(2), {
     help: 'h',
     action: 'a',
     file: 'f',
+    path: 'p',
   }
 });
 if (argv.help) {
