@@ -4,8 +4,7 @@
   "description": "study project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js --exec babel-node",
-    "test": "test"
+    "start": "nodemon index.js --exec babel-node"
   },
   "repository": {
     "type": "git",
@@ -27,7 +26,9 @@
   "false": {},
   "dependencies": {
     "combined-stream": "^1.0.5",
+    "cookie-parser": "^1.4.3",
     "csvjson": "^4.3.4",
+    "express": "^4.16.2",
     "minimist": "^1.2.0",
     "request": "^2.83.0",
     "through2": "^2.0.3"
