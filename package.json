@@ -4,7 +4,7 @@
   "description": "study project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js --exec babel-node"
+    "start": "nodemon index.js --exec babel-node --inspect"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,13 @@
     "cookie-parser": "^1.4.3",
     "csvjson": "^4.3.4",
     "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
     "minimist": "^1.2.0",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "request": "^2.83.0",
     "through2": "^2.0.3"
   }
