@@ -1,3 +1,9 @@
 {
-  "name": "NodeMP HW App"
+  "name": "NodeMP HW App",
+  "user": {
+    "login": "test",
+    "password": "123",
+    "email": "test@test.jp"
+  },
+  "secret": "secret"
 }

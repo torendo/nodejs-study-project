@@ -1,13 +1,21 @@
 import express from 'express';
 import cookie from 'cookie-parser';
+import bodyParser from 'body-parser';
+import passport from 'passport';
 
 import {default as userRouter} from './routes/users';
 import {default as productRouter} from './routes/products';
+import {default as authRouter} from './routes/auth';
+import {default as loginRouter} from './routes/login';
 
 import queryParser from './middlewares/queryParser';
 import cookieParser from './middlewares/cookieParser';
+import tokenChecker from './middlewares/tokenChecker';
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //pp. 5,6: Create middleware for cookie parsing, for query parsing
 app.use('/', queryParser);
@@ -18,7 +26,12 @@ app.use('/', function (req, res, next) {
   next();
 });
 
-//p. 8 Make your application to respond to the following routes...
+app.use(passport.initialize());
+app.use('/login', loginRouter);
+
+app.use('/auth', authRouter);
+
+app.use('/api', tokenChecker);
 app.use('/api/users', userRouter);
 app.use('/api/products', productRouter);
 
