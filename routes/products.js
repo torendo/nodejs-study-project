@@ -1,18 +1,22 @@
 import express from 'express';
 const router = express.Router();
-import Product from '../models/product';
+import db from '../models/';
+
+const Product = require('../models/product')(db.sequelize, db.Sequelize);
 
 router.post('/', function (req, res) {
-  res.send('product added');
+  Product.create(req.body).then(product => res.json(product));
 });
 router.get('/', function (req, res) {
-  res.json(Product.getAll());
+  Product.findAll().then(response => res.json(response));
 });
 router.get('/:id', function (req, res) {
-  res.json(Product.getOne(req.params.id));
+  Product.findById(req.params.id).then(response => res.json(response));
 });
 router.get('/:id/reviews', function (req, res) {
-  res.json(Product.getAllReviews(req.params.id));
+  Product.findById(req.params.id, {
+    attributes: ['reviews']
+  }).then(response => res.json(response));
 });
 
 export default router;

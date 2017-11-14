@@ -12,28 +12,32 @@ import queryParser from './middlewares/queryParser';
 import cookieParser from './middlewares/cookieParser';
 import tokenChecker from './middlewares/tokenChecker';
 
+import db from './models';
+
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+db.sequelize.sync().then(() => {
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
 
-//pp. 5,6: Create middleware for cookie parsing, for query parsing
-app.use('/', queryParser);
-app.use('/', cookie(), cookieParser);
-app.use('/', function (req, res, next) {
-  console.log('parsedCookies', req.parsedCookies);
-  console.log('parsedQuery', req.parsedQuery);
-  next();
+  //pp. 5,6: Create middleware for cookie parsing, for query parsing
+  app.use('/', queryParser);
+  app.use('/', cookie(), cookieParser);
+  app.use('/', function (req, res, next) {
+    console.log('parsedCookies', req.parsedCookies);
+    console.log('parsedQuery', req.parsedQuery);
+    next();
+  });
+
+  app.use(passport.initialize());
+  app.use('/login', loginRouter);
+
+  app.use('/auth', authRouter);
+
+  app.use('/api', tokenChecker);
+  app.use('/api/users', userRouter);
+  app.use('/api/products', productRouter);
+
+  const port = process.env.PORT || 8080;
+  app.listen(port, () => console.log(`App listening on port ${port}!`));
 });
-
-app.use(passport.initialize());
-app.use('/login', loginRouter);
-
-app.use('/auth', authRouter);
-
-app.use('/api', tokenChecker);
-app.use('/api/users', userRouter);
-app.use('/api/products', productRouter);
-
-const port = process.env.PORT || 8080;
-app.listen(port, () => console.log(`App listening on port ${port}!`));
