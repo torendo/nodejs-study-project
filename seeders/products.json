@@ -1,0 +1,19 @@
+[{
+  "name": "Université de Tunis",
+  "reviews": [
+    "Range types are data types representing a range of values of some element type (called the range`s subtype).",
+    "An array of type, e.g. DataTypes.ARRAY(DataTypes.DECIMAL)."
+  ]
+}, {
+  "name": "Western State University College of Law",
+  "reviews": [
+    "A binary storage JSON column. Only available in Postgres.",
+    "A default value of the current timestamp"
+  ]
+}, {
+  "name": "Fine Arts Academy in Wroclaw"
+}, {
+  "name": "Fasa Faculty of Medical Sciences"
+}, {
+  "name": "Universidad de Sevilla"
+}]

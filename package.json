@@ -4,7 +4,8 @@
   "description": "study project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js --exec babel-node --inspect"
+    "start": "nodemon index.js --exec babel-node --inspect",
+    "seed": "node --experimental-modules ./seeders/task-p3.seeder.mjs && node --experimental-modules ./seeders/task-p8.seeder.mjs"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,8 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
     "minimist": "^1.2.0",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.13.5",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth": "^1.0.0",
