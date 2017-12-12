@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
 });
 router.get('/:id', function (req, res) {
   product.getOne(req.params.id)
-    .then((documents) => res.json(documents))
+    .then((documents) => res.json(documents[0]))
     .catch((err) => res.status(404).send({ message: err }));
 });
 router.get('/:id/reviews', function (req, res) {

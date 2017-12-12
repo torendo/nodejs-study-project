@@ -39,7 +39,7 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
   /login/local:
     post:
       tags:
@@ -63,7 +63,7 @@ paths:
         401:
           description: Not authorized
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
   /login/facebook:
     get:
       tags:
@@ -186,11 +186,13 @@ paths:
         500:
           description: Auth Error
   /api/products:
+    x-swagger-router-controller: products
     get:
+      operationId: getAll
       tags:
       - products
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Get all products
       description: Returns all products
       produces:
@@ -205,12 +207,13 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
     post:
+      operationId: add
       tags:
       - products
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Add new product
       description: Returns added product
       consumes:
@@ -232,13 +235,15 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
   /api/products/{id}:
+    x-swagger-router-controller: products
     get:
+      operationId: getOne
       tags:
       - products
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Get product by id
       description: Returns one product
       produces:
@@ -248,7 +253,7 @@ paths:
         in: path
         description: ID of product
         required: true
-        type: number
+        type: string
       responses:
         200:
           description: OK
@@ -257,12 +262,13 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
     delete:
+      operationId: remove
       tags:
       - products
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Delete product by id
       description: Returns deleted product
       produces:
@@ -272,22 +278,24 @@ paths:
         in: path
         description: ID of product
         required: true
-        type: number
+        type: string
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Product'
+            $ref: '#/definitions/MessageDeleted'
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
   /api/products/{id}/reviews:
+    x-swagger-router-controller: products
     get:
+      operationId: getAllReviews
       tags:
       - products
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Get product's reviews by it's id
       description: Returns all product's reviews
       produces:
@@ -297,7 +305,7 @@ paths:
         in: path
         description: ID of product
         required: true
-        type: number
+        type: string
       responses:
         200:
           description: OK
@@ -308,13 +316,15 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
   /api/users:
+    x-swagger-router-controller: users
     get:
+      operationId: getAll
       tags:
       - users
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Get all users
       description: Returns all users
       produces:
@@ -329,13 +339,15 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
   /api/users/{id}:
+    x-swagger-router-controller: users
     delete:
+      operationId: remove
       tags:
       - users
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Delete user by id
       produces:
       - application/json
@@ -344,27 +356,24 @@ paths:
         in: path
         description: ID of user
         required: true
-        type: number
+        type: string
       responses:
         200:
           description: OK
           schema:
-            type: object
-            properties:
-              ok:
-                type: string
-                enum:
-                - user deleted
+            $ref: '#/definitions/MessageDeleted'
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
   /api/cities:
+    x-swagger-router-controller: cities
     get:
+      operationId: getAll
       tags:
       - cities
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Get all cities
       description: Returns all cities
       produces:
@@ -379,12 +388,13 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
     post:
+      operationId: add
       tags:
       - cities
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Add new citiy
       description: Returns added citiy
       consumes:
@@ -406,13 +416,15 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
   /api/cities/{id}:
+    x-swagger-router-controller: cities
     get:
+      operationId: getOne
       tags:
       - cities
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Get city by id
       description: Returns one city
       produces:
@@ -422,7 +434,7 @@ paths:
         in: path
         description: ID of city
         required: true
-        type: number
+        type: string
       responses:
         200:
           description: OK
@@ -431,12 +443,13 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
     put:
+      operationId: update
       tags:
       - cities
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Update city by id
       description: Returns updated city
       consumes:
@@ -448,7 +461,7 @@ paths:
         in: path
         description: ID of city
         required: true
-        type: number
+        type: string
       - name: body
         in: body
         description: City
@@ -463,12 +476,13 @@ paths:
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
     delete:
+      operationId: remove
       tags:
       - cities
-      security:
-        - jwt_auth: []
+#      security:
+#        - jwt_auth: []
       summary: Delete city by id
       description: Returns deleted city
       produces:
@@ -478,16 +492,16 @@ paths:
         in: path
         description: ID of city
         required: true
-        type: number
+        type: string
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/City'
+            $ref: '#/definitions/MessageDeleted'
         404:
           description: Not found
           schema:
-            $ref: '#/definitions/ErrorMessage'
+            $ref: '#/definitions/MessageError'
 securityDefinitions:
   jwt_auth:
     type: apiKey
@@ -536,6 +550,8 @@ definitions:
       lastModifiedDate:
         type: string
         format: date-time
+    required:
+    - name
   City:
     type: object
     properties:
@@ -555,8 +571,15 @@ definitions:
       lastModifiedDate:
         type: string
         format: date-time
-  ErrorMessage:
+  MessageError:
     type: object
     properties:
       message:
         type: string
+  MessageDeleted:
+    type: object
+    properties:
+      ok:
+        type: string
+        enum:
+        - deleted
