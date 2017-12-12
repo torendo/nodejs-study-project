@@ -1,0 +1,81 @@
+[{
+  "name": "Dagsar",
+  "country": "China",
+  "capital": true,
+  "location": {
+    "lat": 31.270415,
+    "lon": 92.290535
+  }
+}, {
+  "name": "Bao’an",
+  "country": "China",
+  "capital": true,
+  "location": {
+    "lat": 22.555259,
+    "lon": 113.884019
+  }
+}, {
+  "name": "Mlandizi",
+  "country": "Tanzania",
+  "capital": false,
+  "location": {
+    "lat": -6.7185157,
+    "lon": 38.7420548
+  }
+}, {
+  "name": "Raglan",
+  "country": "New Zealand",
+  "capital": false,
+  "location": {
+    "lat": -37.8268291,
+    "lon": 174.7994271
+  }
+}, {
+  "name": "Węgierska Górka",
+  "country": "Poland",
+  "capital": true,
+  "location": {
+    "lat": 49.5962241,
+    "lon": 19.1332531
+  }
+}, {
+  "name": "Kafr Nubl",
+  "country": "Syria",
+  "capital": true,
+  "location": {
+    "lat": 35.6139047,
+    "lon": 36.5607888
+  }
+}, {
+  "name": "Bautista",
+  "country": "Philippines",
+  "capital": false,
+  "location": {
+    "lat": 14.5609722,
+    "lon": 121.0224008
+  }
+}, {
+  "name": "Tarutung",
+  "country": "Indonesia",
+  "capital": false,
+  "location": {
+    "lat": 2.0121688,
+    "lon": 98.9797467
+  }
+}, {
+  "name": "Velké Bílovice",
+  "country": "Czech Republic",
+  "capital": true,
+  "location": {
+    "lat": 48.85786,
+    "lon": 16.8938239
+  }
+}, {
+  "name": "Kozloduy",
+  "country": "Bulgaria",
+  "capital": true,
+  "location": {
+    "lat": 43.7755615,
+    "lon": 23.7246154
+  }
+}]
