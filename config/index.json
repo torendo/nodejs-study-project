@@ -3,7 +3,8 @@
   "user": {
     "login": "test",
     "password": "123",
-    "email": "test@test.jp"
+    "email": "test@test.jp",
+    "fullname": "test test"
   },
   "secret": "secret",
   "dbUrl": "mongodb://localhost:27017/database"

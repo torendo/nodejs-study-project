@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import passport from 'passport';
-import config from '../config/index.json';
+import user from '../models/user';
 
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as TwitterStrategy } from 'passport-twitter';
@@ -59,18 +59,28 @@ passport.use('local', new LocalStrategy({
     session: false
   },
   function (username, password, done) {
-    if (username === config.user.login && password === config.user.password) {
-      done(null, {
-        email: config.user.email,
-        username: config.user.login
-      });
-    } else {
-      done(null, false, 'Wrong user or password');
-    }
+    user.getAll()
+      .then((users) => {
+        const user = users.find(user => user.login === username && user.password === password);
+        if (user) {
+          done(null, {
+            login: user.login,
+            email: user.email,
+            fullname: user.fullname
+          });
+        } else {
+          done(null, false, 'Wrong user or password');
+        }
+      })
+      .catch((err) => done(null, false, err));
   }
 ));
 router.post('/local', passport.authenticate('local', { session: false }), function (req, res) {
-  res.send(req.user);
+  if (req.user) {
+    res.send(req.user);
+  } else {
+    res.status(401).send({ message: 'Unauthorized'});
+  }
 });
 
 export default router;

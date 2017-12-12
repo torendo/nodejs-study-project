@@ -13,7 +13,8 @@ router.post('/', function (req, res) {
       data: {
         user: {
           email: config.user.email,
-          username: config.user.login
+          username: config.user.login,
+          fullname: config.user.fullname
         }
       },
       token: token

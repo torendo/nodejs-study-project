@@ -1,0 +1,562 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: NodeJS Study Project
+host: localhost:8080
+basePath: /
+tags:
+- name: auth
+  description: Authentication with JWT
+- name: login
+  description: Authentication with Passport
+- name: products
+  description: Products
+- name: users
+  description: Users
+- name: cities
+  description: Cities
+paths:
+  /auth:
+    post:
+      tags:
+      - auth
+      description: Authentiacte with JWT token
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Auth'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/JWTUser'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /login/local:
+    post:
+      tags:
+      - login
+      description: Authentiacte with local strategy
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/Auth'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        401:
+          description: Not authorized
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /login/facebook:
+    get:
+      tags:
+      - login
+      description: Authentiacte with Facebook
+      responses:
+        302:
+          description: Redirect to Facebook auth page and then to /login/facebook/callback
+  /login/facebook/callback/{code}:
+    get:
+      tags:
+      - login
+      description: Callback for receive auth from Facebook
+      parameters:
+      - name: code
+        in: path
+        description: Token
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              displayName:
+                type: string
+              name:
+                type: object
+              provider:
+                type: string
+                enum:
+                - facebook
+              _raw:
+                type: string
+              _json:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+        401:
+          description: Token error
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                enum:
+                - FacebookTokenError
+              message:
+                type: string
+              type:
+                type: string
+              code:
+                type: number
+              traceID:
+                type: string
+              status:
+                type: number
+
+        500:
+          description: Facebook Auth Error
+          schema:
+            type: object
+            properties:
+              error_code:
+                type: number
+              error_message:
+                type: string
+  /login/twitter:
+    get:
+      tags:
+      - login
+      description: Authentiacte with Twitter
+      responses:
+        302:
+          description: Redirect to Twitter auth page and then to /login/twitter/callback
+  /login/twitter/callback/{code}:
+    get:
+      tags:
+      - login
+      description: Callback for receive auth from Twitter
+      parameters:
+      - name: code
+        in: path
+        description: Token
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+        500:
+          description: Auth Error
+  /login/google:
+    get:
+      tags:
+      - login
+      description: Authentiacte with Google
+      responses:
+        302:
+          description: Redirect to Google auth page and then to /login/google/callback
+  /login/google/callback/{code}:
+    get:
+      tags:
+      - login
+      description: Callback for receive auth from Google
+      parameters:
+      - name: code
+        in: path
+        description: Token
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+        500:
+          description: Auth Error
+  /api/products:
+    get:
+      tags:
+      - products
+      security:
+        - jwt_auth: []
+      summary: Get all products
+      description: Returns all products
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+    post:
+      tags:
+      - products
+      security:
+        - jwt_auth: []
+      summary: Add new product
+      description: Returns added product
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        in: body
+        description: Product
+        required: true
+        schema:
+          $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /api/products/{id}:
+    get:
+      tags:
+      - products
+      security:
+        - jwt_auth: []
+      summary: Get product by id
+      description: Returns one product
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of product
+        required: true
+        type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+    delete:
+      tags:
+      - products
+      security:
+        - jwt_auth: []
+      summary: Delete product by id
+      description: Returns deleted product
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of product
+        required: true
+        type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /api/products/{id}/reviews:
+    get:
+      tags:
+      - products
+      security:
+        - jwt_auth: []
+      summary: Get product's reviews by it's id
+      description: Returns all product's reviews
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of product
+        required: true
+        type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /api/users:
+    get:
+      tags:
+      - users
+      security:
+        - jwt_auth: []
+      summary: Get all users
+      description: Returns all users
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /api/users/{id}:
+    delete:
+      tags:
+      - users
+      security:
+        - jwt_auth: []
+      summary: Delete user by id
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of user
+        required: true
+        type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              ok:
+                type: string
+                enum:
+                - user deleted
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /api/cities:
+    get:
+      tags:
+      - cities
+      security:
+        - jwt_auth: []
+      summary: Get all cities
+      description: Returns all cities
+      produces:
+      - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+    post:
+      tags:
+      - cities
+      security:
+        - jwt_auth: []
+      summary: Add new citiy
+      description: Returns added citiy
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: body
+        in: body
+        description: City
+        required: true
+        schema:
+          $ref: '#/definitions/City'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/City'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /api/cities/{id}:
+    get:
+      tags:
+      - cities
+      security:
+        - jwt_auth: []
+      summary: Get city by id
+      description: Returns one city
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of city
+        required: true
+        type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/City'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+    put:
+      tags:
+      - cities
+      security:
+        - jwt_auth: []
+      summary: Update city by id
+      description: Returns updated city
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of city
+        required: true
+        type: number
+      - name: body
+        in: body
+        description: City
+        required: true
+        schema:
+          $ref: '#/definitions/City'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/City'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+    delete:
+      tags:
+      - cities
+      security:
+        - jwt_auth: []
+      summary: Delete city by id
+      description: Returns deleted city
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of city
+        required: true
+        type: number
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/City'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+securityDefinitions:
+  jwt_auth:
+    type: apiKey
+    in: header
+    name: x-access-token
+definitions:
+  Auth:
+    type: object
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+  JWTUser:
+    type: object
+    properties:
+      message:
+        type: string
+        enum:
+        - OK
+      token:
+        type: string
+      data:
+        type: object
+        properties:
+          user:
+            $ref: '#/definitions/User'
+  User:
+    type: object
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+      fullname:
+        type: string
+  Product:
+    type: object
+    properties:
+      name:
+        type: string
+      reviews:
+        type: array
+        items:
+          type: string
+      lastModifiedDate:
+        type: string
+        format: date-time
+  City:
+    type: object
+    properties:
+      name:
+        type: string
+      country:
+        type: string
+      capital:
+        type: boolean
+      location:
+        type: object
+        properties:
+          lat:
+            type: number
+          lon:
+            type: number
+      lastModifiedDate:
+        type: string
+        format: date-time
+  ErrorMessage:
+    type: object
+    properties:
+      message:
+        type: string
