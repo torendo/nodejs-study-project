@@ -6,7 +6,16 @@ const app = require('express')();
 module.exports = app; // for testing
 
 const config = {
-  appRoot: __dirname // required config
+  appRoot: __dirname,
+  swaggerSecurityHandlers: {
+    jwt_auth: function (req, authOrSecDef, scopesOrApiKey, cb) {
+      if ('1234' === scopesOrApiKey) {
+        cb(true);
+      } else {
+        cb(new Error('access denied!'));
+      }
+    }
+  }
 };
 
 SwaggerExpress.create(config, function(err, swaggerExpress) {

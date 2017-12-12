@@ -372,8 +372,8 @@ paths:
       operationId: getAll
       tags:
       - cities
-#      security:
-#        - jwt_auth: []
+      security:
+        - jwt_auth: []
       summary: Get all cities
       description: Returns all cities
       produces:
