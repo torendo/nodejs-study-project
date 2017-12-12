@@ -8,15 +8,30 @@ import { Strategy as TwitterStrategy } from 'passport-twitter';
 import { OAuthStrategy as GoogleStrategy  } from 'passport-google-oauth';
 import { Strategy as LocalStrategy } from 'passport-local';
 
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
 passport.use('facebook', new FacebookStrategy({
-    clientID: 'FACEBOOK_APP_ID',
-    clientSecret: 'FACEBOOK_APP_SECRET'
+    clientID: '773757886149523',
+    clientSecret: '5da444d22fb818b382131b4202c0af5a',
+    callbackURL: 'http://localhost:8080/login/facebook/callback'
   },
-  function(accessToken, refreshToken, profile, done) {
-    //auth logic
+  function(accessToken, refreshToken, profile, cb) {
+    cb(null, profile);
 }));
 router.get('/facebook', passport.authenticate('facebook'));
-router.get('/facebook/callback', passport.authenticate('facebook'));
+router.get('/facebook/callback', (req, res, next) => {
+  return passport.authenticate('facebook', {
+      failureRedirect: '/login/facebook',
+      session: false
+    }, (err, user) => {
+      if(err) {
+        res.status(401).send(err)
+      } else {
+        res.json(user);
+      }
+    })(req, res, next);
+});
 
 passport.use('twitter', new TwitterStrategy({
     consumerKey: 'TWITTER_CONSUMER_KEY',

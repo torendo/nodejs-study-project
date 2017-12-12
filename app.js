@@ -39,7 +39,7 @@ mongoose.connect(config.dbUrl, {
 
   app.use('/auth', authRouter);
 
-// app.use('/api', tokenChecker);
+  app.use('/api', tokenChecker);
   app.use('/api/users', userRouter);
   app.use('/api/products', productRouter);
   app.use('/api/cities', cityRouter);
