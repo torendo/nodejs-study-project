@@ -29,7 +29,7 @@
     "combined-stream": "^1.0.5",
     "cookie-parser": "^1.4.3",
     "csvjson": "^4.3.4",
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "jsonwebtoken": "^8.1.0",
     "minimist": "^1.2.0",
     "mongodb": "^2.2.33",
